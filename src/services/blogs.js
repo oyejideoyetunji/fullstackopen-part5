@@ -2,11 +2,11 @@ import axios from "axios"
 
 
 const baseUrl = "/api/blogs/"
-const token = null
+let token = null
 
 
 function setToken(newToken){
-    return `Bearer ${newToken}`
+    token = `Bearer ${newToken}`
 }
 
 async function getAll(){
@@ -20,15 +20,13 @@ async function create(blogData){
             Authorization: token
         }
     }
-    const response = await axios
-        .post(baseUrl, blogData, config)
+    const response = await axios.post(baseUrl, blogData, config)
     
     return response.data
 }
 
 async function update(id, data){
-    const response = await axios
-        .put(`${baseUrl}/${id}`, data)
+    const response = await axios.put(`${baseUrl}/${id}`, data)
     return response.data
 }
 

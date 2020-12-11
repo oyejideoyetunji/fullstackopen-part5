@@ -1,3 +1,14 @@
-.error-wrp{
+.error, .success{
+    padding: 1.5rem 1rem;
+    background: #f1f0f0;
+}
+
+.error{
     color: #f03232e7;
+    border: 1px solid #f03232e7;
+}
+
+.success{
+    color: #17b817;
+    border: 1px solid #17b817;
 }

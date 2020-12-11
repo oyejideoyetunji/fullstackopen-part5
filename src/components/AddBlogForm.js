@@ -1,27 +1,39 @@
-import React from "react"
+import React, { useState } from "react"
 
 
 
-function AddBlogForm(
-        { title, author, url, setBlogTitle, setBlogAuthor, setBlogUrl, handleAddBlog }
-    ){
+function AddBlogForm({ handleAddBlog }){
+    const [author, setAuthor] = useState("")
+    const [title, setTitle] = useState("")
+    const [url, setUrl] = useState("")
 
     function handleTitleChange(event){
-        setBlogTitle(event.target.value)
+        setTitle(event.target.value)
     }
 
     function handleAuthorChange(event) {
-        setBlogAuthor(event.target.value)
+        setAuthor(event.target.value)
     }
 
     function handleUrlChange(event) {
-        setBlogUrl(event.target.value)
+        setUrl(event.target.value)
+    }
+
+    function handleSubmit(event){
+        event.preventDefault()
+        const blogData = { author, title, url }
+
+        handleAddBlog(blogData)
+        setAuthor("")
+        setTitle("")
+        setUrl("")
     }
 
     return(
-        <form onSubmit={handleAddBlog}>
+        <form onSubmit={handleSubmit}>
+            <h2>You can add a new blog here</h2>
             <div>
-                <label htmlFor="title">Title</label>
+                <label htmlFor="title">Blog Title</label>
                 <input
                     type="text"
                     value={title}
@@ -30,7 +42,7 @@ function AddBlogForm(
             </div>
             <br />
             <div>
-                <label htmlFor="author"></label>
+                <label htmlFor="author">Blog Author</label>
                 <input
                     type="text"
                     value={author}
@@ -39,7 +51,7 @@ function AddBlogForm(
             </div>
             <br />
             <div>
-                <label htmlFor="url"></label>
+                <label htmlFor="url">Blog Url</label>
                 <input
                     type="text"
                     value={url}
@@ -50,6 +62,7 @@ function AddBlogForm(
             <div>
                 <input type="submit" value="Add Blog"/>
             </div>
+            <br/><br/>
         </form>
     )
 }

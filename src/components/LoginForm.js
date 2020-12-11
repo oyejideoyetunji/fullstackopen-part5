@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useState } from "react"
 
 
 
-function LoginForm({username, password, setUsername, setPassword, handleLoginSubmit, error}){
+function LoginForm({ handleLogin }){
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
 
     function handleUsernameChange(event){
         setUsername(event.target.value)
@@ -12,12 +14,17 @@ function LoginForm({username, password, setUsername, setPassword, handleLoginSub
         setPassword(event.target.value)
     }
 
+    function handleSubmit(event){
+        event.preventDefault()
+
+        const userFormData = { username, password }
+        handleLogin(userFormData)
+        setUsername("")
+        setPassword("")
+    }
+
     return(
-        <form onSubmit={handleLoginSubmit}>
-            {
-                error &&
-                <p className="error-wrp">{error}</p>
-            }
+        <form onSubmit={handleSubmit}>
             <div>
                 <label htmlFor="username">Username</label>
                 <input
