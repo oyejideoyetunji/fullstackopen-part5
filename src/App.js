@@ -3,7 +3,7 @@ import Blog from "./components/Blog"
 import LoginForm from "./components/LoginForm"
 import AddBlogForm from "./components/AddBlogForm"
 import StatusDisplay from "./components/StatusDisplay"
-import blogService from "./services/blogs"
+import blogService from "./services/blog"
 import loginService from "./services/login"
 import "./App.css"
 
@@ -25,7 +25,7 @@ function App(){
     useEffect(() => {
         async function getBlogs(){
             const blogs = await blogService.getAll()
-            if(blogs) setBlogs( blogs )
+            if (blogs) setBlogs(blogs.sort((bloga, blogb) => blogb.likes - bloga.likes))
         }
         getBlogs()
     }, [])
@@ -38,7 +38,7 @@ function App(){
                 blogService.setToken(userData.token)
                 setUser(userData)
                 setStatus({
-                    state: "success",
+                    state:   "success",
                     message: "You logged in successfuly"
                 })
                 setTimeout(() => {
@@ -62,9 +62,9 @@ function App(){
             const newBlog = await blogService.create(blogData)
             if(newBlog)
             console.log(newBlog, newBlog.user)
-                setBlogs(blogs.concat(newBlog))
+            setBlogs(blogs.concat(newBlog).sort((bloga, blogb) => blogb.likes - bloga.likes))
                 setStatus({
-                    state: "success",
+                    state:   "success",
                     message: `A new blog ${newBlog.title}, By ${newBlog.user.name} was added`
                 })
                 setTimeout(() => {
@@ -81,6 +81,45 @@ function App(){
         }
     }
 
+    async function handleUpdateBlog(newBlogData){
+        try{
+            const updatedBlog = await blogService.update(newBlogData.id, newBlogData)
+            const updatedBlogs = blogs.map(blog => {
+                return blog.id === updatedBlog.id ? updatedBlog : blog
+            })
+
+            setBlogs(updatedBlogs.sort((bloga, blogb) => blogb.likes - bloga.likes))
+        }catch(error){
+            return null
+        }
+    }
+
+    async function handleDeleteBlog(blogToDelete){
+        const shouldDelete = window.confirm(`Delete blog ${blogToDelete.title} ?`)
+        if(!shouldDelete) return null;
+
+        try{
+            await blogService.deleteBlog(blogToDelete.id)
+            const newBlogs = blogs.filter(blog => blog.id !== blogToDelete.id)
+            setBlogs(newBlogs.sort((bloga, blogb) => blogb.likes - bloga.likes))
+            setStatus({
+                state:   "success",
+                message: `Blog ${blogToDelete.title} deleted successfully`
+            })
+            setTimeout(() => {
+                setStatus(null)
+            }, 5000)
+        }catch(error){
+            setStatus({
+                state: "error",
+                message: "An error occured while trying to delete the blog please try again"
+            })
+            setTimeout(() => {
+                setStatus(null)
+            }, 5000)
+        }
+    }
+
     function logOut(){
         window.localStorage.removeItem("currentUser")
         blogService.setToken(null)
@@ -90,7 +129,7 @@ function App(){
     if(!user) return(
         <main>
             <h1>Login to proceed</h1>
-            <StatusDisplay status={status} />
+            <StatusDisplay status={ status } />
             <LoginForm handleLogin={ handleLogin } />
         </main>
     )
@@ -100,13 +139,19 @@ function App(){
             <StatusDisplay status={ status } />
             <h1>Blogs</h1>
             <p>
-                {user.name.toUpperCase()} logged in
+                { user.name.toUpperCase() } logged in
                 <button onClick={logOut}> Logout </button>
             </p>
             <AddBlogForm handleAddBlog={ handleAddBlog } />
             {
                 blogs.map(
-                    blog => <Blog key={blog.id} blog={blog} />
+                    blog => <Blog
+                        key={blog.id}
+                        blog={blog}
+                        user={user}
+                        handleDeleteBlog={handleDeleteBlog}
+                        handleUpdateBlog={handleUpdateBlog}
+                    />
                 )
             }
         </main>

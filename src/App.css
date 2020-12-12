@@ -1,3 +1,11 @@
+*{
+    box-sizing: border-box;
+}
+
+main{
+    margin: auto;
+    width: 95%;
+}
 .error, .success{
     padding: 1.5rem 1rem;
     background: #f1f0f0;
@@ -11,4 +19,11 @@
 .success{
     color: #17b817;
     border: 1px solid #17b817;
+}
+
+.blog-card{
+    border: 1px solid #a5a3a3;
+    box-shadow: 4px 8px 6px #ecebeb;
+    padding: 4px 16px;
+    margin: 1rem 0;
 }
