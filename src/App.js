@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Blog from "./components/Blog"
 import LoginForm from "./components/LoginForm"
 import AddBlogForm from "./components/AddBlogForm"
 import StatusDisplay from "./components/StatusDisplay"
+import Toggler from "./components/Toggler"
 import blogService from "./services/blog"
 import loginService from "./services/login"
 import "./App.css"
@@ -12,6 +13,7 @@ import "./App.css"
 function App(){
     const [blogs, setBlogs] = useState([])
     const [user, setUser] = useState(null)
+    const blogFormTogglerRef = useRef(null)
     const [status, setStatus] = useState(null)
 
     useEffect(() => {
@@ -60,9 +62,8 @@ function App(){
     async function handleAddBlog(blogData){
         try{
             const newBlog = await blogService.create(blogData)
-            if(newBlog)
-            console.log(newBlog, newBlog.user)
-            setBlogs(blogs.concat(newBlog).sort((bloga, blogb) => blogb.likes - bloga.likes))
+            if(newBlog){
+                setBlogs(blogs.concat(newBlog).sort((bloga, blogb) => blogb.likes - bloga.likes))
                 setStatus({
                     state:   "success",
                     message: `A new blog ${newBlog.title}, By ${newBlog.user.name} was added`
@@ -70,6 +71,7 @@ function App(){
                 setTimeout(() => {
                     setStatus(null)
                 }, 7000)
+            }
         }catch(error){
             setStatus({
                 state:   "error",
@@ -96,7 +98,7 @@ function App(){
 
     async function handleDeleteBlog(blogToDelete){
         const shouldDelete = window.confirm(`Delete blog ${blogToDelete.title} ?`)
-        if(!shouldDelete) return null;
+        if (!shouldDelete) return null
 
         try{
             await blogService.deleteBlog(blogToDelete.id)
@@ -142,13 +144,18 @@ function App(){
                 { user.name.toUpperCase() } logged in
                 <button onClick={logOut}> Logout </button>
             </p>
-            <AddBlogForm handleAddBlog={ handleAddBlog } />
+            <Toggler ref={blogFormTogglerRef} buttonLabel="Add new blog">
+                <AddBlogForm
+                    handleAddBlog={handleAddBlog}
+                    togglerRef={blogFormTogglerRef}
+                />
+            </Toggler>
             {
                 blogs.map(
                     blog => <Blog
-                        key={blog.id}
                         blog={blog}
                         user={user}
+                        key={blog.id}
                         handleDeleteBlog={handleDeleteBlog}
                         handleUpdateBlog={handleUpdateBlog}
                     />
