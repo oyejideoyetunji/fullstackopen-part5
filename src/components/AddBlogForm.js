@@ -43,6 +43,7 @@ function AddBlogForm({ handleAddBlog, togglerRef }){
                 <input
                     type="text"
                     value={ title }
+                    id="title-frm"
                     onChange={ handleTitleChange }
                 />
             </div>
@@ -52,6 +53,7 @@ function AddBlogForm({ handleAddBlog, togglerRef }){
                 <input
                     type="text"
                     value={ author }
+                    id="author-frm"
                     onChange={ handleAuthorChange }
                 />
             </div>
@@ -61,6 +63,7 @@ function AddBlogForm({ handleAddBlog, togglerRef }){
                 <input
                     type="text"
                     value={ url }
+                    id="url-frm"
                     onChange={ handleUrlChange }
                 />
             </div>

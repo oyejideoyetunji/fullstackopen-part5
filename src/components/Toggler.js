@@ -22,11 +22,20 @@ const Toggler = forwardRef(function(props, ref){
             >
                 { props.buttonLabel }
             </button>
-            <div style={{ display: visibility ? "" : "none" }}>
+            <div
+                style={{ display: visibility ? "" : "none" }}
+                className="toggler-content"
+            >
                 {props.children}
             </div>
-            <div style={{ display: visibility ? "" : "none" }}>
-                <button type="button" onClick={toggleVisibility} >Cancel</button>
+            <div
+                style={{ display: visibility ? "" : "none" }}
+            >
+                <button
+                    type="button" onClick={toggleVisibility}
+                >
+                    Cancel
+                </button>
             </div>
             <br /><br />
         </section>

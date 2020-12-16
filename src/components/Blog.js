@@ -26,17 +26,27 @@ function Blog({ blog, user, handleDeleteBlog, handleUpdateBlog }){
 
     return(
         <div className="blog-card">
-            <p>
+            <p className="sumary-card">
                 { blog.title } { blog.author }
-                <button type="button" onClick={ toggleDetailsVisibility }>
+                <button
+                    type="button"
+                    onClick={ toggleDetailsVisibility }
+                >
                     { detailsVisibility ? "Hide" : "View" }
                 </button>
             </p>
-            <div style={{ display: detailsVisibility ? "" : "none" }}>
+            <div
+                style={{ display: detailsVisibility ? "" : "none" }}
+                className="details-card"
+            >
                 <p> {blog.url} </p>
                 <p>
                     Likes:{` ${blog.likes} `}
-                    <button type="button" onClick={updateBlogLikes} >Like</button>
+                    <button
+                        type="button" onClick={updateBlogLikes} className="like-btn"
+                    >
+                        Like
+                    </button>
                 </p>
                 <p> {blog.user.name} </p>
                 {
