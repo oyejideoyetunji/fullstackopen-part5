@@ -69,7 +69,7 @@ function AddBlogForm({ handleAddBlog, togglerRef }){
             </div>
             <br />
             <div>
-                <input type="submit" value="Add Blog"/>
+                <input id="add-blog" type="submit" value="Add Blog"/>
             </div>
             <br/>
         </form>

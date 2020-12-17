@@ -139,7 +139,7 @@ function App(){
     return (
         <main>
             <StatusDisplay status={ status } />
-            <h1>Blogs</h1>
+            <h1>Blogs List</h1>
             <p>
                 { user.name.toUpperCase() } logged in
                 <button onClick={logOut}> Logout </button>

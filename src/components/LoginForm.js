@@ -30,7 +30,7 @@ function LoginForm({ handleLogin }){
                 <label htmlFor="username">Username</label>
                 <input
                     type="text"
-                    name="username"
+                    id="username"
                     value={username}
                     onChange={handleUsernameChange}
                 />
@@ -40,7 +40,7 @@ function LoginForm({ handleLogin }){
                 <label htmlFor="password">Password</label>
                 <input
                     type="password"
-                    name="password"
+                    id="password"
                     value={password}
                     onChange={handlePasswordChange}
                 />
@@ -49,6 +49,7 @@ function LoginForm({ handleLogin }){
             <div>
                 <input
                     type="submit"
+                    id="login"
                     value="Login"
                 />
             </div>
