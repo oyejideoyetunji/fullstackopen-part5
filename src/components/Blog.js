@@ -26,6 +26,7 @@ function Blog({ blog, user, handleDeleteBlog, handleUpdateBlog }){
 
     return(
         <div className="blog-card">
+            A Blog Card
             <p className="sumary-card">
                 { blog.title } { blog.author }
                 <button
@@ -40,7 +41,7 @@ function Blog({ blog, user, handleDeleteBlog, handleUpdateBlog }){
                 className="details-card"
             >
                 <p> {blog.url} </p>
-                <p>
+                <p className="likes-wrp">
                     Likes:{` ${blog.likes} `}
                     <button
                         type="button" onClick={updateBlogLikes} className="like-btn"
